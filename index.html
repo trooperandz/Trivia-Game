@@ -1,0 +1,88 @@
+<!--
+ * Program: index.html
+ * Created: 08/23/2016 by Matt Holland
+ * Located: desktop/bootcamp/homework/triviagame/index.html
+ * Purpose: Provide html structure for 5th assignment - Trivia game
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Trivia Trivia! </title>
+
+		<!-- Include meta viewport tag to give browser instructions on how to control page dimensions/scaling -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<!-- Latest Bootstrap compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+		<!-- use locally if no internet cxn -->
+		<!--<link rel="stylesheet" href="assets/css/bootstrap.min.css">-->
+
+		<!-- Customized stylesheet -->
+		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+		<!-- Google fonts -->
+		
+	</head>
+
+	<body>
+
+		<!-- Audio for program background music. Initialize via autoplay attribute on page load -->
+		<audio src="assets/sounds/bg_music/main_theme.mp3" id="main-theme" autoplay="autoplay">Your browser does not support the audio.</audio>
+		<!-- Audio for game win -->
+		<audio src="assets/sounds/bg_music/win_theme.mp3" id="win-theme" loop="loop">Your browser does not support the audio.</audio>
+		<!-- Audio for game loss -->
+		<audio src="assets/sounds/bg_music/lose_theme.mp3" id="lose-theme" loop="loop">Your browser does not support the audio.</audio>
+
+		<!-- Audio div for miscellaneous game sound effects, generated and initialized via js -->
+		<div id="misc-noises"></div>
+
+		<!-- Big Page Heading -->
+		<div class="jumbotron">
+  			<div class="container">
+    			<h1 class="text-center"> Trivia In Yo' Face! </h1>
+  			</div>
+		</div>
+
+		<!-- Section for main game play.  Note: Content is added and removed via js -->
+		<section class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12 col-md-12 col-lg-12 text-center" id="display-characters"></div> 
+
+				<aside class="col-sm-12 col-md-12 col-lg-2 text-center" id="display-protagonist"></aside>
+
+				<div class="col-sm-12 col-md-12 col-lg-10 text-center" id="display-enemies"></div>
+
+				<aside class="col-sm-12 col-md-12 col-lg-2 text-center" id="attack-power-you"></aside>
+
+				<div class="col-sm-12 col-md-12 col-lg-10 text-center" id="attack-section"></div>
+
+				<aside class="col-sm-12 col-md-12 col-lg-2 text-center" id="display-defender"></aside>
+
+				<div class="col-sm-12 col-md-12 col-lg-10 text-center" id="battle-ground"></div>
+
+				<div class="col-sm-12 col-md-12 col-lg-2 text-center" id="attack-power-enemy"></div>
+
+				<div class="col-sm-12 col-md-12 col-lg-10 text-center" id="battle-feedback"></div>
+			</div>
+		</section> <!-- .container-fluid -->
+
+		<!-- jQuery library (necessary for Bootstrap & other JavaScript plugins) -->
+   		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+   		<!-- use locally if no internet cxn -->
+   		<!--<script src="assets/javascript/jquery.js"></script>-->
+
+   		<!-- Backstretch js plugin, for page background -->
+   		<script src="assets/javascript/backstretch_plugin.min.js"></script>
+
+		<!-- Latest compiled and minified Bootstrap JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+		<!-- use locally if no internet cxn -->
+		<!--<script src="assets/javascript/bootstrap.min.js"></script>-->
+
+		<!-- Custom js game code -->
+		<script src="assets/javascript/app.js"></script>
+	</body>
+</html>

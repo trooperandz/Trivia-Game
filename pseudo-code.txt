@@ -1,0 +1,120 @@
+** Game flow:
+	-User clicks "start" to begin game
+	-First trivia item pops up, along with timer countdown
+	-If user guesses correctly before time is up, a "congrats" note pops up, along with video/image
+	-Timeout is set on this view, then the next question pops up
+	-If user guesses incorrectly before time is up, a "wrong" note pops up, along with video/image and correct answer
+	-If user runs out of time before guessing, a "time out" note pops up, along with video/image and correct answer
+	-Time delay happens just as before, then next question pops up
+
+	-At end of game, notes pop up:
+		"Game Over!"
+		Correct Guesses
+		Incorrect Guesses
+		Unanswered
+		Start Over button is available
+
+** Code structure:
+
+ 1)game object (contains main gameplay code)
+
+	a) Array of objects for rounds:
+	rounds: [
+	  	{
+			question: "",
+
+			image: "",
+	
+			guesses: [
+				{
+					answer: "",
+					correct: "0"
+			  	}, 
+
+			  	{
+					answer: "",
+					correct: "1"
+			  	}, 
+
+			  	{
+					answer: "",
+					correct: "0"
+			  	},
+
+			  	{
+					answer: "",
+					correct: "0"
+			  	}
+			]
+	  	},
+
+		{
+			question: "",
+	
+			guesses: [
+				{
+					answer: "",
+					correct: "0"
+			  	}, 
+
+			  	{
+					answer: "",
+					correct: "0"
+			  	}, 
+
+			  	{
+					answer: "",
+					correct: "1"
+			  	},
+
+			  	{
+					answer: "",
+					correct: "0"
+			  	}
+			]
+	  	},
+	]
+
+	b) correctGuesses = 0 (keep count)
+
+	c) incorrectGuesses = 0 (keep count)
+
+	d) unansweredGuesses = 0 (keep count)
+
+	e) correctFeedback: "", (message to display on displayAnswer action, for correct guess)
+
+	f) incorrectFeedback: "", (message to display on displayAnswer action, for incorrect guess)
+
+	g) unansweredFeedback: "", (message to display on displayAnswer action, for unanswered question)
+
+	h) resetGame: function() (for resetting/restarting the game when game is over, or user wants to restart)
+
+	i) displayQuestion: function() (for generating and displaying current trivia question html)
+
+	j) displayAnswer: function() (for generating the actual right answer feedback, with related image)
+
+2) timer object
+
+	timer: {
+		time: ...., (the actual timer)
+
+		resetTime: function() {
+
+		},
+
+		timeout: function() {
+
+		}
+	}
+
+** HTML structure:
+
+ 	-Jumbotron for main title
+
+ 	-main div for game stuff (will house dynamically generated content all from js)
+ 		<div id="round-contents"></div>
+
+ 	-
+
+
+
