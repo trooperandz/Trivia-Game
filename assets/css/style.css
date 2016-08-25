@@ -1,0 +1,59 @@
+body {
+	background-image: url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/random_grey_variations.png');
+	/*background-color: #008cba;*/
+	color: #fff;
+	font-family: 'Abril Fatface', cursive;
+}
+
+.jumbotron {
+	color: #fff;
+	/*background-color: #4aaaa5; */
+	/*background-color: rgba(74, 170, 165, 0.8);*/
+	background-color: transparent;
+}
+
+p.main-question {
+	height: 390px;
+	padding: 10px;
+	margin: 15px;
+	border-radius: 4px;
+	box-shadow: 7px 7px 5px #333;
+	background-color: gray;
+	font-size: 25px;
+}
+
+p.main-question img {
+	opacity: 0.4;
+	transition: .5s;
+}
+
+p.main-question img:hover {
+	opacity: 1;
+}
+
+p {
+	font-size: 25px;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+	flex-direction: column;
+	text-align: center;
+	color: #fff;
+}
+
+.answer-choice0, .answer-choice1, .answer-choice2, .answer-choice3 {
+	height: 180px;
+	border-radius: 4px;
+	border: 1px solid transparent;
+	box-shadow: 7px 7px 5px #333;
+	padding: 10px;
+	margin: 15px;
+	cursor: pointer;
+	transition: .5s;
+	color: #fff;
+}
+
+.answer-choice0:hover, .answer-choice1:hover, .answer-choice2:hover, .answer-choice3:hover {
+	background-color: rgba(204, 204, 204, 0.2) !important;
+	color: #008cba;
+}

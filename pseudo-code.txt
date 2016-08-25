@@ -93,6 +93,10 @@
 
 	j) displayAnswer: function() (for generating the actual right answer feedback, with related image)
 
+	k) removeRound: function() (for removing a "round" from the main round contents)
+
+	l) pickRandomIndex: function() (for getting random index from "rounds" array for choosing question)
+
 2) timer object
 
 	timer: {
