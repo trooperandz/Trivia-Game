@@ -528,7 +528,7 @@ var trivia = {
 var timer = {
 
 	// Establish the time (in seconds)
-	timeLimit: 10,
+	timeLimit: 20,
 
 	// Function to decrement the time count
 	count: function() {
@@ -536,7 +536,7 @@ var timer = {
 		if(seconds < 0) {
 			timer.stop();
 			// Reset timer so that new count can start for next round
-			timer.timeLimit = 10;
+			timer.timeLimit = 20;
 			// Set id to null so that unanswered feedback is displayed (tell user their time ran out)
 			var id = "undefined";
 			// Set the message string above the correct answer image
@@ -557,7 +557,7 @@ var timer = {
 
 	// Function to start the timer
 	start: function() {
-		timer.timeLimit = 10;
+		timer.timeLimit = 20;
 		if(token == undefined) {
 			token = setInterval(timer.count, 1000);
 		}

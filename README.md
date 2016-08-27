@@ -25,13 +25,15 @@
 ### Assets/images/answers
  * various images for answer container background image content
 
-## Program General Information:
+## Program Highlights:
 
  * All program js functionality was placed inside of js objects
 
+ * All question/answer html content is generated dynamically with js
+
  * Bootstrap was used for this project.
 
- * The project features the backstretch.js plugin, for question and answer container images.
+ * The project features the backstretch.js plugin, for question and answer container background images.
 
  * Google fonts were used for program text.
 
