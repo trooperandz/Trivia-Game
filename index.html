@@ -47,12 +47,25 @@
 
 		<!-- Section for main game play.  Note: Content is added and removed dynamically via js -->
 		<section class="container-fluid">
+			
+			<div class="row">
+				<div class="col-sm-12 col-md-5 col-lg-5 col-centered" id="start-container">
+					<p class="start-button"> Ignite Your Brain &raquo; </p>
+				</div>
+			</div>
+			
 			<div class="row">
 				<div class="col-sm-12 col-md-12 col-lg-12 text-center" id="display-timer">
 					<p class="seconds"></p>
 				</div>
 				<div class="col-sm-12 col-md-12 col-lg-12 text-center" id="display-round"></div> 
+				
+				<div class="col-sm-12 col-md-7 col-lg-7 col-centered text-center" id="display-answer">
+					<!--<h2> You guessed correctly!! </h2>
+					<p class="answer-info">Nikola Tesla may be the most underappreciated inventor in all of history!</p>-->
+				</div>
 			</div>
+			
 		</section> <!-- .container-fluid -->
 
 		<!-- Code that is actually created from the app.js file, on page load

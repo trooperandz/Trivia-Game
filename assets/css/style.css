@@ -1,3 +1,9 @@
+/* Center a single Bootstrap column that doesn't span 12 cols */
+.col-centered {
+    float: none;
+    margin: 0 auto;
+}
+
 body {
 	background-image: url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/random_grey_variations.png');
 	/*background-color: #008cba;*/
@@ -12,6 +18,25 @@ body {
 	background-color: transparent;
 }
 
+/* Style the 'start' button container, displayed on first page load */
+.start-button {
+	height: 180px;
+	border-radius: 10px;
+	box-shadow: 7px 7px 5px #333;
+	padding: 10px;
+	cursor: pointer;
+	transition: .5s;
+	background-color: #FF5959;
+	color: #fff;
+	font-size: 40px;
+	margin-top: 40px;
+}
+
+.start-button:hover {
+	/*background-color: rgba(204, 204, 204, 0.2);*/
+	background-color: #cc4747;
+}
+
 p.main-question {
 	height: 390px;
 	padding: 10px;
@@ -20,6 +45,7 @@ p.main-question {
 	box-shadow: 7px 7px 5px #333;
 	background-color: gray;
 	font-size: 25px;
+	transition: .5s;
 }
 
 p.main-question img {
@@ -56,4 +82,27 @@ p {
 .answer-choice0:hover, .answer-choice1:hover, .answer-choice2:hover, .answer-choice3:hover {
 	background-color: rgba(204, 204, 204, 0.2) !important;
 	color: #008cba;
+}
+
+.answer-info {
+	height: 415px;
+	border-radius: 4px;
+	box-shadow: 7px 7px 5px #333;
+}
+
+.display-answer h3 {
+	color: #fff;
+}
+
+.display-answer p {
+	font-size: 25px;
+}
+
+p.answer-info img {
+	opacity: 0.6;
+	transition: .5s;
+}
+
+p.answer-info img:hover {
+	opacity: 1;
 }
