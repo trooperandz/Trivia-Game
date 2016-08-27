@@ -42,3 +42,5 @@
  * Every main question container has its own customized background image
 
  * Every main answer container has its own customized background image
+
+ * Every answer displays an interesting tidbit of information regarding the correct answer
