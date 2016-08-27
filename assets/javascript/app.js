@@ -4,16 +4,32 @@
  * Located: desktop/bootcamp/homework/triviagame/assets/javascript
  * Purpose: Provide gameplay code for 5th assignment - Trivia game
  */
-var token;
- // Main game play object
- var trivia = {
 
+// Set token global var for timer use
+var token;
+
+// Main game play object
+var trivia = {
+
+ 	// Message string for storing correct, incorrect or unanswered feedback on screen (see below), set in setGuessState() method
+ 	guessState: "",
+
+ 	// Keep track of total correct guesses for later display
+ 	correctGuesses: 0,
+
+ 	// Keep track of total incorrect guesses for later display
+ 	incorrectGuesses: 0,
+
+ 	// Message to display when user selects the correct answer
  	correctFeedback: "Nice one! You got it right.",
 
+ 	// Message to display when user selects the incorrect answer
  	incorrectFeedback: "Sorry, but you need to study more!",
 
+ 	// Message to display when user runs out of time
  	unansweredFeedback: "Your time ran out!",
 
+ 	// Boolean used 
  	firstQuestion: true,
 
  	// Set main 'rounds' index so that answer may also access the correct round object generation for image & text content
@@ -411,7 +427,7 @@ var token;
  		var tempArray = [];
 
  		// Start the timer.  Placed inside of this function so that timer does not pop up after other content
- 		//timer.start();
+ 		timer.start();
 	
  		// Generate html content for displaying the first question
  		// Grab parent div
@@ -461,18 +477,14 @@ var token;
  			tempArray.push(object.correct);
  		});
 	
- 		// Start the timer
- 		//timer.startTimer();
-	
- 		console.log('tempArray: ' + tempArray);
-	
  		// Save correct answer index. This will ALWAYS match the id of the <p> tag. It works!!
  		trivia.correctAnswerIndex = tempArray.indexOf("1");
  		console.log('correctAnswerIndex in generateQuestion(): ' + trivia.correctAnswerIndex);
 	},
 
-	// guessState will represent the incorrect or correct or unanswered state. set correctFeedback, incorrectFeedback, etc
-	generateAnswer: function(guessState) {
+	// guessState will represent the incorrect, correct or unanswered state, for feedback string
+	// Note: if parameter unanswered == true, then run the generateQuestion() method (user click was not executed so must force execution)
+	generateAnswer: function(unanswered) {
 		console.log("Active index in generateAnswer(): " + trivia.activeIndex);
 		// This will only run after an answer selection, or a timeout. First, clear main round content to make room for answer display
 		var parent = document.getElementById("display-round");
@@ -481,7 +493,7 @@ var token;
 		// Now get answer display parent div, and create heading
 		var parent = document.getElementById("display-answer");
 		var h2 = document.createElement('h2');
-		var text = document.createTextNode(guessState);
+		var text = document.createTextNode(trivia.guessState);
 		h2.appendChild(text);
 		parent.appendChild(h2);
 
@@ -495,12 +507,26 @@ var token;
 		// Now activate backstretch plugin for <p> image background
 		$('p.answer-info').backstretch(this.rounds[trivia.activeIndex].answerImage);
 
-		// Now set the timeout to give the user time to see the answer display, and then generate new question content
-		//setTimeout(this.generateQuestion, 10000);
-	}
+		// Now generate the next question, only if 'unanswered' == true
+		if(unanswered) {
+			setTimeout(this.generateQuestion, 10000);
+		}
+	},
+
+	setGuessState: function(id) {
+		if(id == trivia.correctAnswerIndex) {
+			trivia.guessState = trivia.correctFeedback;
+		} else if (id == "undefined") {
+			trivia.guessState = trivia.unansweredFeedback;
+		} else {
+			trivia.guessState = trivia.incorrectFeedback;
+		}
+ 	}
  }
 
- var timer = {
+// Code instructions for the timer functionality
+var timer = {
+
 	// Establish the time (in seconds)
 	timeLimit: 10,
 
@@ -508,30 +534,32 @@ var token;
 	count: function() {
 		var seconds = timer.timeLimit -= 1;/*parseInt((this.timeLimit -= 1), 10);*/
 		if(seconds < 0) {
-			this.stop();
+			timer.stop();
+			// Reset timer so that new count can start for next round
 			timer.timeLimit = 10;
-			/*var parent = document.getElementById("display-round");
-			parent.innerHTML = "";
-			timer.timeLimit = 10;
-			trivia.generateQuestion();*/
-			//this.start();
+			// Set id to null so that unanswered feedback is displayed (tell user their time ran out)
+			var id = "undefined";
+			// Set the message string above the correct answer image
+			trivia.setGuessState(id);
+			// Generate the correct answer display. First set unanswered == true so next question will be generated
+			var unanswered = true;
+			trivia.generateAnswer(unanswered);
 		} else {
 			// Add leading zeros if value is less than 10
 			seconds = seconds < 10 ? "00:0" + seconds : "00:" + seconds;
-			//console.log("seconds: " + seconds);
 			// Now display the updated time on the page
 			var parent = document.getElementById("display-timer");
 			var p = parent.getElementsByClassName('seconds')[0];
 			//var time = document.createTextNode(seconds);
 			p.innerHTML = seconds;
-			//console.log("time: " + time);
 		}
 	},
 
 	// Function to start the timer
 	start: function() {
+		timer.timeLimit = 10;
 		if(token == undefined) {
-			token = setInterval(this.count, 1000);
+			token = setInterval(timer.count, 1000);
 		}
 	},
 
@@ -543,8 +571,8 @@ var token;
 	}
 }
 
- $(document).ready(function() {
- 	//$('p.answer-info').backstretch('assets/images/answers/nikola-tesla.jpg');
+// Main program execution code
+$(document).ready(function() {
  	
  	// When the user clicks the main start button, generate first question and start the timer
  	$('p.start-button').on("click", function() {
@@ -553,32 +581,27 @@ var token;
  		var p = parent.getElementsByClassName('start-button')[0];
  		parent.removeChild(p);
 
- 		// Generate the first question. firstQuestion identifies whether or not html content of div#display-answer needs to be removed first
+ 		// Generate the first question
  		trivia.generateQuestion();
-
- 		// Start the timer
- 		//timer.start();
  	});
 
  	// Determine whether or not the user chose the correct answer
  	$('div#display-round').on('click', 'p', function(event) {
- 		console.log("correctAnswerIndex in answer click handler: " + trivia.correctAnswerIndex);
+ 		// Store the id selected for determining correct or incorrect answer
  		var id = $(this).attr('id').slice(-1);
- 		console.log("You clicked the p with id " + id);
 
  		// Stop the timer
  		timer.stop();
 
- 		// Determine if the id was the correct answer
- 		var guessState = (id == trivia.correctAnswerIndex) ? trivia.correctFeedback : trivia.incorrectFeedback;
- 		console.log(guessState);
+ 		// Set feedback message string based on correct or incorrect id
+ 		trivia.setGuessState(id);
 
- 		// Run the generateAnswer() method and pass correct or incorrect response display text for future heading
- 		trivia.generateAnswer(guessState);
+ 		// Display answer content. Set unanswered == false so that generateAnswer() does not execute the generateQuestion() method again
+ 		var unanswered = false;
+ 		trivia.generateAnswer(unanswered);
 
  		// Now set a timeout so that the answer is available for viewing, before moving on and generating the next question.
- 		//timer.start();
  		trivia.firstQuestion = false;
  		setTimeout(trivia.generateQuestion, 10000);
  	});
- });
+});
