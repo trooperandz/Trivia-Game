@@ -214,7 +214,7 @@ var trivia = {
 			  	},
 
 			  	{
-					answer: "Steve Jobs",
+					answer: "1890's",
 					correct: "0",
 					backgroundColor: "#BCE27F"
 			  	}
@@ -513,14 +513,27 @@ var trivia = {
 		}
 	},
 
+	// Based on the index selected, see if it is correct or not.  Assign feedback to guessState for later display on answer feedback
 	setGuessState: function(id) {
 		if(id == trivia.correctAnswerIndex) {
 			trivia.guessState = trivia.correctFeedback;
+			// Increment the correct guess counter
+			trivia.correctGuesses += 1;
 		} else if (id == "undefined") {
 			trivia.guessState = trivia.unansweredFeedback;
+			// Increment the incorrect guess counter
+			trivia.incorrectGuesses += 1;
 		} else {
 			trivia.guessState = trivia.incorrectFeedback;
+			// Increment the incorrect guess counter
+			trivia.incorrectGuesses += 1;
 		}
+ 	},
+
+ 	// Remove the last selected quesčion from the main rounds array after it has been used so that id can't be selected again
+ 	removeRoundObject: function() {
+ 		trivia.rounds.splice(trivia.activeIndex, 1);
+ 		console.log("rounds array after remove: " + trivia.rounds.length);
  	}
  }
 
@@ -532,7 +545,7 @@ var timer = {
 
 	// Function to decrement the time count
 	count: function() {
-		var seconds = timer.timeLimit -= 1;/*parseInt((this.timeLimit -= 1), 10);*/
+		var seconds = timer.timeLimit -= 1;
 		if(seconds < 0) {
 			timer.stop();
 			// Reset timer so that new count can start for next round
@@ -544,6 +557,8 @@ var timer = {
 			// Generate the correct answer display. First set unanswered == true so next question will be generated
 			var unanswered = true;
 			trivia.generateAnswer(unanswered);
+			// Now remove last displayed object from the main rounds array so that it can't be chosen again
+ 			trivia.removeRoundObject();
 		} else {
 			// Add leading zeros if value is less than 10
 			seconds = seconds < 10 ? "00:0" + seconds : "00:" + seconds;
@@ -600,8 +615,20 @@ $(document).ready(function() {
  		var unanswered = false;
  		trivia.generateAnswer(unanswered);
 
- 		// Now set a timeout so that the answer is available for viewing, before moving on and generating the next question.
- 		trivia.firstQuestion = false;
- 		setTimeout(trivia.generateQuestion, 10000);
+ 		// Now remove last displayed object from the main rounds array so that it can't be chosen again
+ 		trivia.removeRoundObject();
+
+ 		// Now check to see if it was the last round.  If so, game over.
+ 		if(trivia.rounds.length == 0) {
+ 			// Game is over if no objects left in the main rounds array
+ 			// Set win/lose text based on counts
+ 			var gameResult = (trivia.correctGuesses > trivia.incorrectGuesses) ? "You won!" : "You lost!";
+ 			alert("Game Over! You answered " + trivia.correctGuesses + " questions correctly and " + trivia.incorrectGuesses + " incorrectly." + gameResult);
+ 		} else {
+ 			// Game is still in session.  
+ 			// Set a timeout so that the answer is available for viewing, before moving on and generating the next question.
+ 			trivia.firstQuestion = false;
+ 			setTimeout(trivia.generateQuestion, 10000);
+ 		}
  	});
 });
