@@ -33,7 +33,7 @@
 
  * Bootstrap was used for this project.
 
- * The project features the backstretch.js plugin, for question and answer container background images.
+ * The project features the backstretch.js plugin, which generates question and answer container background images relevant to question.
 
  * Google fonts were used for program text.
 
@@ -41,8 +41,10 @@
 
  * Each question contains a different color palette/scheme for answer choice containers.
 
- * Every main question container has its own customized background image
+ * Every main question container has its own customized background image.
 
- * Every main answer container has its own customized background image
+ * Every main answer container has its own customized background image.
 
- * Every answer displays an interesting tidbit of information regarding the correct answer
+ * Every answer displays an interesting tidbit of information regarding the correct answer.
+
+ * Background music is looped throughout the game.

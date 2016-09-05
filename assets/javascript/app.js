@@ -38,6 +38,9 @@ var trivia = {
  	// Set currently picked question as index so that it may be used as a global var
  	correctAnswerIndex: 0,
 
+ 	// Store the total count of possible answers, for display at the end of game for score report. Initialize at game start.
+ 	totalPossibleAnswers: 0,
+
  	// Array of objects for storing round information:
  	// Note: color combinations derived from: http://www.colorcombos.com/color-schemes
 	rounds: [
@@ -513,6 +516,28 @@ var trivia = {
 		}
 	},
 
+	// Create game over html when game has ended
+	generateGameOver: function() {
+		var parent = document.getElementById("display-game-over");
+		var h2 = document.createElement('h2');
+		var text = document.createTextNode("Game Over!");
+		h2.appendChild(text);
+		parent.appendChild(h2);
+
+		// Now create paragraph, with display of correct/incorrect answer counts
+		var p = document.createElement('p');
+		p.setAttribute("class", "game-over-info");
+
+		if (trivia.correctGuesses > trivia.incorrectGuesses) {
+			var msg = "You won the game!";
+		} else if (trivia.correctGuesses < trivia.incorrectGuesses) {
+			var msg = "You lost the game. Sorry!";
+		} else {
+			var msg = "You didn't win or lose; you should play again to get better!";
+		}
+		var text = document.createTextNode("You answered " + trivia.correctGuesses + " questions correctly, and " + trivia.incorrectGuesses + " incorrectly." + msg);
+	},
+
 	// Based on the index selected, see if it is correct or not.  Assign feedback to guessState for later display on answer feedback
 	setGuessState: function(id) {
 		if(id == trivia.correctAnswerIndex) {
@@ -534,6 +559,40 @@ var trivia = {
  	removeRoundObject: function() {
  		trivia.rounds.splice(trivia.activeIndex, 1);
  		console.log("rounds array after remove: " + trivia.rounds.length);
+ 	},
+
+ 	// Display game over message. Offer player the button to play again.
+ 	displayGameOver: function() {
+ 		// Generate game over message
+ 		var msg = "Game Over! You answered " + trivia.correctGuesses + " out of " + trivia.totalPossibleAnswers + " questions correctly.";
+
+ 		// Get parent element
+ 		var parent = document.getElementById('start-container');
+
+ 		// Create h2 for insertion into parent, using parameter msg for text
+ 		var h2 = document.createElement('h2');
+ 		var text = document.createTextNode(msg);
+ 		h2.appendChild(text);
+
+ 		// Create p for insertion into parent
+ 		var p = document.createElement('p');
+ 		// Give p same class name as start button for styling, then set id attribute for window reload if user chooses to play again.
+ 		p.setAttribute("class", "play-again-button");
+ 		var text = document.createTextNode("Play Again >>");
+ 		p.appendChild(text);
+
+ 		// Display game over message by appending new items to parent
+ 		parent.appendChild(h2);
+ 		parent.appendChild(p);
+
+ 		// Clear out the answer content
+ 		var parent = document.getElementById("display-answer");
+ 		parent.innerHTML = "";
+
+ 		// Clear out the timer display <p> element
+ 		var parent = document.getElementById("display-timer");
+ 		var p = document.getElementsByClassName("seconds")[0];
+ 		parent.removeChild(p);
  	}
  }
 
@@ -589,12 +648,15 @@ var timer = {
 // Main program execution code
 $(document).ready(function() {
  	
- 	// When the user clicks the main start button, generate first question and start the timer
- 	$('p.start-button').on("click", function() {
+ 	// When the user clicks the main start button, generate first question and then start the timer
+ 	$('div#start-container').on('click', 'p.start-button', function() {
  		// Remove the start button to make room for question content
  		var parent = document.getElementById("start-container");
  		var p = parent.getElementsByClassName('start-button')[0];
  		parent.removeChild(p);
+
+ 		// Set/store total possible answer count for game over score report
+ 		trivia.totalPossibleAnswers = trivia.rounds.length;
 
  		// Generate the first question
  		trivia.generateQuestion();
@@ -620,15 +682,19 @@ $(document).ready(function() {
 
  		// Now check to see if it was the last round.  If so, game over.
  		if(trivia.rounds.length == 0) {
- 			// Game is over if no objects left in the main rounds array
- 			// Set win/lose text based on counts
- 			var gameResult = (trivia.correctGuesses > trivia.incorrectGuesses) ? "You won!" : "You lost!";
- 			alert("Game Over! You answered " + trivia.correctGuesses + " questions correctly and " + trivia.incorrectGuesses + " incorrectly." + gameResult);
+ 			// Display the Game Over message, and offer player chance to play again, but only after last answer content has been displayed
+ 			setTimeout(trivia.displayGameOver, 10000);
+
  		} else {
  			// Game is still in session.  
  			// Set a timeout so that the answer is available for viewing, before moving on and generating the next question.
  			trivia.firstQuestion = false;
- 			setTimeout(trivia.generateQuestion, 10000);
+ 			setTimeout(trivia.generateQuestion, 8000);
  		}
+ 	});
+
+ 	// If user clicks "Play Again" button, reload the page for a new game round
+ 	$('div#start-container').on('click', 'p.play-again-button', function() {
+ 		location.reload();
  	});
 });

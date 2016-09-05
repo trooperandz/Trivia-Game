@@ -6,7 +6,6 @@
 
 body {
 	background-image: url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/random_grey_variations.png');
-	/*background-color: #008cba;*/
 	color: #fff;
 	font-family: 'Abril Fatface', cursive;
 }
@@ -18,8 +17,13 @@ body {
 	background-color: transparent;
 }
 
+/* Center-align specific text elements */
+.text-center {
+	text-align: center;
+}
+
 /* Style the 'start' button container, displayed on first page load */
-.start-button {
+.start-button, .play-again-button {
 	height: 180px;
 	border-radius: 10px;
 	box-shadow: 7px 7px 5px #333;
@@ -35,6 +39,15 @@ body {
 .start-button:hover {
 	/*background-color: rgba(204, 204, 204, 0.2);*/
 	background-color: #cc4747;
+}
+
+/* Give the Play Again button a different background color */
+.play-again-button {
+	background-color: #4aaaa5;
+}
+
+.play-again-button:hover {
+	background-color: #3B8884;
 }
 
 p.main-question {
